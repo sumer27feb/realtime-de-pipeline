@@ -1,0 +1,12 @@
+[
+    {"city": "Patna", "state": "Bihar"},
+    {"city": "Delhi", "state": "Delhi"},
+    {"city": "Mumbai", "state": "Maharashtra"},
+    {"city": "Bengaluru", "state": "Karnataka"},
+    {"city": "Hyderabad", "state": "Telangana"},
+    {"city": "Chennai", "state": "Tamil Nadu"},
+    {"city": "Kolkata", "state": "West Bengal"},
+    {"city": "Pune", "state": "Maharashtra"},
+    {"city": "Jaipur", "state": "Rajasthan"},
+    {"city": "Lucknow", "state": "Uttar Pradesh"}
+]
