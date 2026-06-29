@@ -94,3 +94,4 @@ class PaymentCompletedEvent(BaseEvent):
 
 class ContinuousGenerationRequest(BaseModel):
     events_per_second: int = Field(default=1, ge=1, le=1000)
+    publish_to_kafka: bool = Field(default=False)

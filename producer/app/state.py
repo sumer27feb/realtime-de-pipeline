@@ -20,10 +20,15 @@ payments: list[Any] = []
 product_stock: dict[str, int] = {}
 
 is_generating: bool = False
+producer_mode: str = "local"
 continuous_events_generated: int = 0
 current_events_per_second: int = 0
 last_generated_event: Any = None
 last_error: str | None = None
+
+events_published: int = 0
+publish_failures: int = 0
+last_publish_error: str | None = None
 
 
 def reset_product_stock() -> None:
@@ -35,9 +40,13 @@ def reset_product_stock() -> None:
 
 def clear_runtime_state() -> None:
     global continuous_events_generated
+    global producer_mode
     global current_events_per_second
     global last_generated_event
     global last_error
+    global events_published
+    global publish_failures
+    global last_publish_error
 
     users.clear()
     product_views.clear()
@@ -48,11 +57,14 @@ def clear_runtime_state() -> None:
     payments.clear()
 
     reset_product_stock()
-
+    producer_mode = "local"
     continuous_events_generated = 0
     current_events_per_second = 0
     last_generated_event = None
     last_error = None
+    events_published = 0
+    publish_failures = 0
+    last_publish_error = None
 
 
 def get_state_summary(include_stock: bool = True) -> dict[str, Any]:

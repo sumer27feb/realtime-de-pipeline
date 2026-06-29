@@ -115,7 +115,10 @@ def clear_state():
 
 @app.post("/producer/start")
 async def start_producer(request: ContinuousGenerationRequest):
-    return await producer_service.start_generation(request.events_per_second)
+    return await producer_service.start_generation(
+        events_per_second=request.events_per_second,
+        publish_to_kafka=request.publish_to_kafka,
+    )
 
 
 @app.post("/producer/stop")
