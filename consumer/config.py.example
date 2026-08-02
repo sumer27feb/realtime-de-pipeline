@@ -1,0 +1,43 @@
+import os
+
+# ==========================================================
+# Kafka
+# ==========================================================
+
+KAFKA_BOOTSTRAP_SERVERS = os.getenv(
+    "KAFKA_BOOTSTRAP_SERVERS",
+    "localhost:9092",
+)
+
+KAFKA_CONSUMER_GROUP_ID = os.getenv(
+    "KAFKA_CONSUMER_GROUP_ID",
+    "ecommerce-raw-ingestor",
+)
+
+KAFKA_TOPICS = [
+    "ecommerce.user.created",
+    "ecommerce.product.viewed",
+    "ecommerce.order.created",
+    "ecommerce.payment.completed",
+]
+
+KAFKA_CONSUMER_CONFIG = {
+    "bootstrap.servers": KAFKA_BOOTSTRAP_SERVERS,
+    "group.id": KAFKA_CONSUMER_GROUP_ID,
+    "auto.offset.reset": "earliest",
+    "enable.auto.commit": False,
+}
+
+# ==========================================================
+# Databricks
+# ==========================================================
+
+DATABRICKS_HOST = os.getenv(
+    "DATABRICKS_HOST",
+    "https://your-workspace.cloud.databricks.com",
+)
+
+DATABRICKS_TOKEN = os.getenv(
+    "DATABRICKS_TOKEN",
+    "YOUR_DATABRICKS_PAT",
+)

@@ -4,3 +4,6 @@ __pycache__
 .idea
 sql
 *.xlsx
+consumer/config.py
+producer/app/config.py
+*.txt
