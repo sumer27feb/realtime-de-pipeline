@@ -21,15 +21,17 @@ from confluent_kafka import Message
 @dataclass(slots=True)
 class BufferedEvent:
     """
-    Represents one Kafka event stored in memory.
+    Represents one event stored inside the in-memory buffer.
 
-    Stores both the deserialized event payload and its
-    original Kafka message so offsets can be committed
-    only after successful batch persistence.
+    Besides the deserialized event payload, it stores the
+    minimum Kafka metadata required to commit offsets after
+    successful batch persistence.
     """
 
     event: dict[str, Any]
-    message: Message
+    topic: str
+    partition: int
+    offset: int
 
 
 class EventBuffer:
@@ -66,7 +68,9 @@ class EventBuffer:
         self._events.append(
             BufferedEvent(
                 event=event,
-                message=message,
+                topic=message.topic(),
+                partition=message.partition(),
+                offset=message.offset(),
             )
         )
 
@@ -90,7 +94,7 @@ class EventBuffer:
         Returns current batch without clearing it.
         """
 
-        return self._events
+        return self._events.copy()
 
     def clear(self) -> None:
         """

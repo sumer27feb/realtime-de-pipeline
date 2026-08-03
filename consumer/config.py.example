@@ -28,6 +28,10 @@ KAFKA_CONSUMER_CONFIG = {
     "enable.auto.commit": False,
 }
 
+RETRY_SLEEP_SECONDS = 2
+BUFFER_FLUSH_INTERVAL_SECONDS = 5
+BUFFER_MAX_SIZE = 100
+
 # ==========================================================
 # Databricks
 # ==========================================================
