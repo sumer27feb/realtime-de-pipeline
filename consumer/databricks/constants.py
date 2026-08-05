@@ -1,4 +1,7 @@
-BRONZE_USERS_TABLE = "workspace.default.bronze_users"
-BRONZE_PRODUCT_VIEWS_TABLE = "workspace.default.bronze_product_views"
-BRONZE_ORDERS_TABLE = "workspace.default.bronze_orders"
-BRONZE_PAYMENTS_TABLE = "workspace.default.bronze_payments"
+BRONZE_CATALOG = "workspace"
+BRONZE_SCHEMA = "bronze"
+
+BRONZE_USERS_TABLE = f"{BRONZE_CATALOG}.{BRONZE_SCHEMA}.users"
+BRONZE_PRODUCT_VIEWS_TABLE = f"{BRONZE_CATALOG}.{BRONZE_SCHEMA}.product_views"
+BRONZE_ORDERS_TABLE = f"{BRONZE_CATALOG}.{BRONZE_SCHEMA}.orders"
+BRONZE_PAYMENTS_TABLE = f"{BRONZE_CATALOG}.{BRONZE_SCHEMA}.payments"

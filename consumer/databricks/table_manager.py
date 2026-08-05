@@ -1,11 +1,12 @@
 """
-Creates Bronze Delta tables if they do not already exist.
+Creates the Bronze Delta layer if it does not already exist.
 
 Responsibilities
 ----------------
+- Ensure the Bronze schema exists.
 - Ensure all required Bronze Delta tables exist.
 - Execute only DDL statements.
-- Raise immediately if table creation fails.
+- Raise immediately if any DDL operation fails.
 
 This module intentionally does NOT:
 - Write event data
@@ -17,11 +18,19 @@ This module intentionally does NOT:
 from pyspark.sql import SparkSession
 
 from consumer.databricks.constants import (
+    BRONZE_CATALOG,
+    BRONZE_SCHEMA,
+    BRONZE_USERS_TABLE,
+    BRONZE_PRODUCT_VIEWS_TABLE,
     BRONZE_ORDERS_TABLE,
     BRONZE_PAYMENTS_TABLE,
-    BRONZE_PRODUCT_VIEWS_TABLE,
-    BRONZE_USERS_TABLE,
 )
+
+CREATE_BRONZE_SCHEMA_DDL = f"""
+CREATE SCHEMA IF NOT EXISTS
+{BRONZE_CATALOG}.{BRONZE_SCHEMA}
+"""
+
 
 BRONZE_TABLE_DDL: dict[str, str] = {
     BRONZE_USERS_TABLE: f"""
@@ -94,6 +103,18 @@ BRONZE_TABLE_DDL: dict[str, str] = {
 }
 
 
+def _create_schema_if_not_exists(
+    spark: SparkSession,
+) -> None:
+    """
+    Creates the Bronze schema if it does not already exist.
+    """
+
+    spark.sql(CREATE_BRONZE_SCHEMA_DDL)
+
+    print(f"[TableManager] Ready: " f"{BRONZE_CATALOG}.{BRONZE_SCHEMA}")
+
+
 def _create_table_if_not_exists(
     spark: SparkSession,
     table_name: str,
@@ -108,12 +129,16 @@ def _create_table_if_not_exists(
     print(f"[TableManager] Ready: {table_name}")
 
 
-def ensure_bronze_tables(
+def ensure_bronze_layer(
     spark: SparkSession,
 ) -> None:
     """
-    Ensures that all Bronze Delta tables required by the
-    ingestion pipeline exist.
+    Ensures the complete Bronze Delta layer exists.
+
+    This includes:
+
+    - Bronze schema
+    - Bronze tables
 
     Raises
     ------
@@ -121,7 +146,11 @@ def ensure_bronze_tables(
         Propagates any Spark SQL exception immediately.
     """
 
-    print("Ensuring Bronze Delta tables exist...")
+    print("Ensuring Bronze Delta layer exists...")
+
+    _create_schema_if_not_exists(
+        spark,
+    )
 
     for table_name, ddl in BRONZE_TABLE_DDL.items():
         _create_table_if_not_exists(
@@ -130,4 +159,4 @@ def ensure_bronze_tables(
             ddl=ddl,
         )
 
-    print("Bronze table initialization complete.")
+    print("Bronze layer initialization complete.")

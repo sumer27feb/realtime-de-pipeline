@@ -1,0 +1,164 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: >
+      Bronze layer containing raw e-commerce events ingested from Kafka by the
+      Python consumer. The data is stored in Delta Lake with minimal processing
+      to preserve the original business events.
+
+    loader: Python Kafka Consumer
+
+    database: workspace
+    schema: bronze
+
+    tables:
+      - name: users
+        description: >
+          Raw user registration events generated whenever a new customer signs up.
+
+        columns:
+          - name: event_id
+            description: Globally unique identifier for the event.
+
+          - name: event_type
+            description: Type of business event. Always 'user_created'.
+
+          - name: event_timestamp
+            description: Timestamp when the event occurred.
+
+          - name: user_id
+            description: Unique identifier assigned to the registered user.
+
+          - name: username
+            description: Username selected by the user during registration.
+
+          - name: email
+            description: Email address associated with the user account.
+
+          - name: phone
+            description: User's registered mobile phone number.
+
+          - name: signup_method
+            description: Registration channel such as email, Google or phone.
+
+          - name: device_type
+            description: Device type used during signup.
+
+      - name: product_views
+        description: >
+          Raw product browsing events generated whenever a user views a product.
+
+        columns:
+          - name: event_id
+            description: Globally unique identifier for the event.
+
+          - name: event_type
+            description: Type of business event. Always 'product_viewed'.
+
+          - name: event_timestamp
+            description: Timestamp when the product was viewed.
+
+          - name: user_id
+            description: User who viewed the product.
+
+          - name: session_id
+            description: Browsing session associated with the product view.
+
+          - name: product_id
+            description: Unique identifier of the viewed product.
+
+          - name: product_name
+            description: Product name displayed to the customer.
+
+          - name: category
+            description: Product category at the time of the view.
+
+          - name: price_at_view
+            description: Product price when the user viewed the product.
+
+          - name: stock_quantity_at_view
+            description: Available inventory when the product was viewed.
+
+      - name: orders
+        description: >
+          Raw order creation events generated after a customer successfully places
+          an order.
+
+        columns:
+          - name: event_id
+            description: Globally unique identifier for the event.
+
+          - name: event_type
+            description: Type of business event. Always 'order_created'.
+
+          - name: event_timestamp
+            description: Timestamp when the order was created.
+
+          - name: order_id
+            description: Unique identifier of the order.
+
+          - name: user_id
+            description: User who placed the order.
+
+          - name: product_id
+            description: Product included in the order.
+
+          - name: quantity
+            description: Number of product units ordered.
+
+          - name: unit_price
+            description: Price per unit at the time of ordering.
+
+          - name: total_amount
+            description: Total monetary value of the order.
+
+          - name: currency
+            description: ISO currency code used for the order amount.
+
+          - name: shipping_city
+            description: Destination city for order delivery.
+
+          - name: shipping_state
+            description: Destination state for order delivery.
+
+      - name: payments
+        description: >
+          Raw payment events generated whenever a payment attempt is made for an order.
+
+        columns:
+          - name: event_id
+            description: Globally unique identifier for the event.
+
+          - name: event_type
+            description: Type of business event. Always 'payment_completed'.
+
+          - name: event_timestamp
+            description: Timestamp when the payment event occurred.
+
+          - name: payment_id
+            description: Unique identifier of the payment transaction.
+
+          - name: order_id
+            description: Order associated with the payment.
+
+          - name: user_id
+            description: User who initiated the payment.
+
+          - name: product_id
+            description: Product associated with the purchased order.
+
+          - name: amount
+            description: Amount involved in the payment transaction.
+
+          - name: currency
+            description: ISO currency code used for the payment.
+
+          - name: payment_mode
+            description: Payment method such as UPI, card, wallet or cash on delivery.
+
+          - name: payment_status
+            description: Result of the payment attempt, such as success, failed or pending.
+
+          - name: payment_provider
+            description: Payment gateway or provider used to process the payment.
