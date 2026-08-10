@@ -33,7 +33,7 @@ from consumer.config import (
 )
 from consumer.databricks.bronze_writer import write_bronze_batch
 from consumer.databricks.session import create_spark_session
-from consumer.databricks.table_manager import ensure_bronze_tables
+from consumer.databricks.table_manager import ensure_bronze_layer
 from consumer.kafka.batch_processor import partition_events
 from consumer.kafka.client import create_kafka_consumer
 from consumer.kafka.buffer import EventBuffer
@@ -56,7 +56,7 @@ def initialize_consumer() -> tuple[
 
     print("Ensuring Bronze Delta tables exist...")
 
-    ensure_bronze_tables(spark)
+    ensure_bronze_layer(spark)
 
     print("Creating Kafka consumer...")
 
