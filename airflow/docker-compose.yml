@@ -1,0 +1,20 @@
+services:
+  airflow:
+    build: .
+    container_name: ecommerce-airflow
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - airflow_data:/opt/airflow
+      - ../dbt:/opt/project/dbt
+      - ${USERPROFILE}/.dbt:/home/airflow/.dbt:ro
+
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+
+    command: standalone
+
+volumes:
+  airflow_data:
