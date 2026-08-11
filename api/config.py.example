@@ -1,0 +1,13 @@
+import os
+
+DATABRICKS_HOST = os.getenv(
+    "DATABRICKS_HOST",
+    "host path",
+)
+
+DATABRICKS_HTTP_PATH = os.getenv(
+    "DATABRICKS_HTTP_PATH",
+    "http path",
+)
+
+DATABRICKS_TOKEN = os.getenv("DATABRICKS_TOKEN", "api key")

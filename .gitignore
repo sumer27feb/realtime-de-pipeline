@@ -7,3 +7,4 @@ sql
 consumer/config.py
 producer/app/config.py
 *.txt
+api/config.py
