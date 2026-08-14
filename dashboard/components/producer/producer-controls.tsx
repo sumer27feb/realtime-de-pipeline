@@ -26,6 +26,7 @@ export function ProducerControls({
   return (
     <section className="flex min-h-0 flex-col justify-between bg-[#111113] p-6 sm:p-7">
       <div>
+        {/* Producer status */}
         <div className="flex items-start justify-between">
           <div>
             <div className="text-[9px] uppercase tracking-[0.2em] text-white/30">
@@ -47,6 +48,7 @@ export function ProducerControls({
             </div>
           </div>
 
+          {/* Publishing mode */}
           <div className="text-right">
             <div className="text-[9px] uppercase tracking-[0.18em] text-white/25">
               Mode
@@ -58,12 +60,14 @@ export function ProducerControls({
           </div>
         </div>
 
+        {/* Generation rate */}
         <div className="mt-9">
           <div className="flex items-end justify-between">
             <div className="text-xs text-white/40">Generation rate</div>
 
             <div className="font-mono text-3xl tracking-[-0.06em] text-[#d7a84a]">
               {eventsPerSecond}
+
               <span className="ml-2 text-xs tracking-normal text-white/30">
                 / sec
               </span>
@@ -73,19 +77,23 @@ export function ProducerControls({
           <input
             type="range"
             min={1}
-            max={50}
+            max={100}
+            step={1}
             value={eventsPerSecond}
             disabled={running || loading}
-            onChange={(e) => onRateChange(Number(e.target.value))}
-            className="mt-5 w-full accent-[#d7a84a]"
+            onChange={(event) => {
+              onRateChange(Number(event.target.value));
+            }}
+            className="mt-5 w-full cursor-pointer accent-[#d7a84a] disabled:cursor-not-allowed"
           />
 
           <div className="mt-1 flex justify-between text-[9px] text-white/20">
             <span>1</span>
-            <span>50</span>
+            <span>100</span>
           </div>
         </div>
 
+        {/* Publishing mode */}
         <div className="mt-7">
           <div className="mb-2 text-[9px] uppercase tracking-[0.16em] text-white/25">
             Publishing
@@ -111,10 +119,12 @@ export function ProducerControls({
         </div>
       </div>
 
+      {/* Start / Stop */}
       <button
+        type="button"
         disabled={loading}
         onClick={running ? onStop : onStart}
-        className="mt-8 flex h-12 items-center justify-between bg-[#d7a84a] px-5 text-sm font-semibold text-[#111113] transition hover:bg-[#e8c66f] disabled:opacity-50"
+        className="mt-8 flex h-12 items-center justify-between bg-[#d7a84a] px-5 text-sm font-semibold text-[#111113] transition hover:bg-[#e8c66f] disabled:cursor-not-allowed disabled:opacity-50"
       >
         <span>
           {loading
@@ -149,13 +159,14 @@ function ModeButton({
 }) {
   return (
     <button
+      type="button"
       disabled={disabled}
       onClick={onClick}
       className={`h-10 flex-1 border text-[10px] uppercase tracking-[0.15em] transition ${
         active
           ? "border-[#d7a84a] bg-[#d7a84a]/10 text-[#d7a84a]"
           : "border-white/10 text-white/30 hover:border-white/20 hover:text-white/60"
-      } disabled:opacity-30`}
+      } disabled:cursor-not-allowed disabled:opacity-30`}
     >
       {children}
     </button>

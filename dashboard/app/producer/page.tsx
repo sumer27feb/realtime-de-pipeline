@@ -121,7 +121,7 @@ export default function ProducerPage() {
             <div className="grid min-h-0 grid-rows-[1fr_auto] gap-px bg-white/10">
               <ProducerControls
                 running={running}
-                eventsPerSecond={status?.events_per_second ?? rate}
+                eventsPerSecond={rate}
                 publishToKafka={kafka}
                 loading={loading}
                 onRateChange={setRate}

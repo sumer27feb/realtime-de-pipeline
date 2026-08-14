@@ -25,12 +25,7 @@ import time
 from confluent_kafka import Consumer, KafkaError, TopicPartition
 from pyspark.sql import SparkSession
 
-from consumer.config import (
-    BUFFER_FLUSH_INTERVAL_SECONDS,
-    BUFFER_MAX_SIZE,
-    RETRY_SLEEP_SECONDS,
-    POLL_TIMEOUT_SECONDS,
-)
+from consumer.config import RETRY_SLEEP_SECONDS, BUFFER_FLUSH_INTERVAL_SECONDS, BUFFER_MAX_SIZE, POLL_TIMEOUT_SECONDS
 from consumer.databricks.bronze_writer import write_bronze_batch
 from consumer.databricks.session import create_spark_session
 from consumer.databricks.table_manager import ensure_bronze_layer

@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from producer.app import state
 from producer.app import producer_service
@@ -24,6 +25,17 @@ app = FastAPI(
     title="Real-Time E-commerce Event Producer",
     description="Dev API for generating fake e-commerce events",
     version="0.1.0",
+)
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
